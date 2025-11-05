@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Découvrez la Funcard !</title>
+
+    <style>
+        /* ========================================
+         == MODIFICATION DU FOND (BODY) ==
+        ========================================
+        */
+        body {
+            /* 1. Il garde le FOND ANIMÉ (la couche du dessous) */
+            background: linear-gradient(-45deg, #23a6d5, #23d5ab, #e73c7e, #ee7752);
+            background-size: 400% 400%;
+            animation: gradientAnim 15s ease infinite;
+            
+            background-attachment: fixed;
+            background-position: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            
+            /* 2. Important pour positionner la couche d'image */
+            position: relative;
+        }
+
+        /* * 3. NOUVELLE COUCHE : VOTRE IMAGE TRANSPARENTE
+         * (Elle se place entre le body et le contenu)
+        */
+        body::before {
+            content: ''; /* Obligatoire pour un pseudo-élément */
+            
+            /* Positionné pour couvrir tout l'écran */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            /* C'est VOTRE image */
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            
+            /* C'EST LA MAGIE : La transparence de l'image */
+            opacity: 0.4; /* !! Ajustez cette valeur (ex: 0.3, 0.5...) !! */
+            
+            /* Place cette couche DERRIÈRE le contenu (mais DEVANT le fond du body) */
+            z-index: -1;
+        }
+
+        /* ========================================
+         == FIN DE LA MODIFICATION DU FOND ==
+        ========================================
+        */
+
+        /* 2. Style pour le conteneur principal */
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* 3. L'EFFET GLASSMORPHISME (AVEC MICRO-ANIMATION) */
+        .conteneur-verre {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .conteneur-verre:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 4. Amélioration des textes */
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        h2 {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            padding-bottom: 10px;
+        }
+        
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Styles pour le Header et le Logo (AVEC MICRO-ANIMATION) */
+        header {
+            text-align: center;
+            padding-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            width: 350px;
+            height: 350px;
+            max-width: 90%;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            object-fit: cover;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 5. Style du pied de page */
+        footer {
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+
+        /* 6. Styles pour les listes de partenaires */
+        .liste-partenaires { list-style-type: none; padding-left: 0; }
+        .item-partenaire { display: flex; align-items: center; margin-bottom: 25px; }
+        .logo-partenaire { width: 50px; height: 50px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); margin-right: 15px; background-color: rgba(255, 255, 255, 0.1); transition: transform 0.3s ease; }
+        .item-partenaire:hover .logo-partenaire { transform: scale(1.1); }
+        .info-partenaire { display: flex; flex-direction: column; }
+        .info-partenaire a { color: #ffffff; font-weight: bold; font-size: 1.1em; text-decoration: none; transition: opacity 0.3s ease; }
+        .info-partenaire a:hover { opacity: 0.7; text-decoration: underline; }
+        .lien-gps { font-size: 0.9em; font-weight: normal; opacity: 0.8; text-decoration: underline; }
+        .lien-gps:hover { opacity: 1; }
+        
+        /* 7. Style du bouton d'action */
+        .cta-bouton {
+            display: block; background-color: #ffffff; color: #333; font-size: 1.2em; font-weight: bold; text-decoration: none; padding: 15px 30px; border-radius: 50px; text-align: center; margin-top: 30px; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cta-bouton:hover {
+            transform: scale(1.05); background-color: #f0f0f0; color: #000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 8. Style pour le visuel de la carte (déplacé) */
+        .visuel-carte {
+            display: block; margin-left: auto; margin-right: auto; margin-top: 40px; width: 90%; max-width: 500px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* 9. Styles pour la section "COMMENT" */
+        .liste-etapes { padding-left: 30px; font-size: 1.1em; line-height: 1.7; }
+        .liste-etapes li { margin-bottom: 15px; font-weight: bold; }
+        .image-explication { display: block; width: 100%; margin-left: auto; margin-right: auto; margin-top: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+        /* 10. ANIMATIONS */
+        
+        /* Définition de l'animation du fond */
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Définition de l'animation de "flottement" */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Définition de l'animation d'entrée (apparition) */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Application des animations d'entrée */
+        header, .conteneur-verre, .visuel-carte, footer {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        header { animation-delay: 0.2s; }
+        main > .conteneur-verre:nth-of-type(1) { animation-delay: 0.4s; }
+        main > .conteneur-verre:nth-of-type(2) { animation-delay: 0.6s; }
+        main > .conteneur-verre:nth-of-type(3) { animation-delay: 0.8s; }
+        .visuel-carte { animation-delay: 1.0s; }
+        footer { animation-delay: 1.2s; }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <img src="logo.png" alt="Logo Funcard" class="logo">
+        <h1>Bienvenue sur la page de la Funcard !</h1>
+    </header>
+
+    <main>
+        
+        <section class="conteneur-verre">
+            <h2>Découvrez la Fun Card – votre passeport pour le plaisir sans limite !</h2>
+            <p>Avec votre <strong>Fun Card rechargeable</strong>, profitez d’un accès à tout ce que vous aimez : jeux, boissons, snacks et bien plus encore.</p>
+            <p>Simple, rapide et pratique – rechargez-la à tout moment et laissez la magie opérer !</p>
+            <p>Plus besoin de monnaie, plus de stress… juste du fun à volonté !</p>
+            <a href="#" class="cta-bouton">Obtenir ma Funcard !</a>
+        </section>
+
+        <section class="conteneur-verre">
+            <h2>Comment ça marche ?</h2>
+            <ol class="liste-etapes">
+                <li>Je choisis mon budget sur la borne</li>
+                <li>La borne délivre la Fun Card</li>
+                <li>Je m’amuse sans limite !</li>
+            </ol>
+            <img src="comment-ca-marche.png" alt="Comment la Fun Card fonctionne" class="image-explication">
+        </section>
+
+        <section class="conteneur-verre">
+            <h2>Où utiliser votre Funcard ?</h2>
+            <p>Profitez des avantages de votre carte dans toutes nos entreprises partenaires :</p>
+            <ul class="liste-partenaires">
+                <li class="item-partenaire">
+                    <img src="logo-gamehouse.png" alt="Logo Game House" class="logo-partenaire">
+                    <div class="info-partenaire">
+                        <a href="https://gamehouse.fr/" target="_blank">Game House Bourgoin-Jallieu</a>
+                        <a href="http://googleusercontent.com/maps/google.com/0" target="_blank" class="lien-gps">Y aller (GPS)</a>
+                    </div>
+                </li>
+                <li class="item-partenaire">
+                    <img src="logo-gamehouse.png" alt="Logo Game House" class="logo-partenaire">
+                    <div class="info-partenaire">
+                        <a href="https://gamehouse.fr/" target="_blank">Game House la tour du pin</a>
+                        <a href="http://googleusercontent.com/maps/google.com/2" target="_blank" class="lien-gps">Y aller (GPS)</a>
+                    </div>
+                </li>
+                <li class="item-partenaire">
+                    <img src="logo-bowling-saintsavin.png" alt="Logo Bowling saint-savin" class="logo-partenaire">
+                    <div class="info-partenaire">
+                        <a href="https://bowling-saint-savin.fr/" target="_blank">Bowling saint-savin</a>
+                        <a href="http://googleusercontent.com/maps/google.com/1" target="_blank" class="lien-gps">Y aller (GPS)</a>
+                    </div>
+                </li>
+                <li class="item-partenaire">
+                    <img src="logo-bowling-lumieres.png" alt="Logo Bowling des lumières" class="logo-partenaire">
+                    <div class="info-partenaire">
+                        <a href="https://www.bowling-des-lumieres.fr/" target="_blank">Bowling des lumières</a>
+                        <a href="http://googleusercontent.com/maps/google.com/3" target="_blank" class="lien-gps">Y aller (GPS)</a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <img src="visu-fun-card.png" alt="Visuel de la Fun Card" class="visuel-carte">
+
+    </main>
+
+    <footer>
+        <p>© 2025 - BTN GRAPHIC DESIGNER</p>
+    </footer>
+
+</body>
+</html>
